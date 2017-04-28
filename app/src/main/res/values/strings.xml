@@ -35,5 +35,6 @@
     <!-- Content description strings -->
     <string name="add_a_new_stock_button_descr">Button to add a new stock symbol.</string>
     <string name="stock_symbol_to_add_descr">Edit text field to write down stock symbol to add(e.g GOOG).</string>
+    <string name="symbol_clicked_debug_message">Symbol clicked: %s</string>
 
 </resources>

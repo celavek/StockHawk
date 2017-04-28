@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.error)
+    @BindView(R.id.tv_error_message_display)
     TextView error;
     private StockAdapter adapter;
 
     @Override
     public void onClick(String symbol) {
-        Timber.d("Symbol clicked: %s", symbol);
+        Timber.d(getString(R.string.symbol_clicked_debug_message), symbol);
     }
 
     @Override
