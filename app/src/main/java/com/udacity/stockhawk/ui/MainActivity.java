@@ -1,10 +1,12 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -36,12 +38,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.recycler_view)
     RecyclerView stockRecyclerView;
+
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
+
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.tv_error_message_display)
     TextView error;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.fab)
+    FloatingActionButton fabButton;
+
     private StockAdapter adapter;
 
     @Override
@@ -100,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_network));
             error.setVisibility(View.VISIBLE);
+            fabButton.setEnabled(false);
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_grey)));
         } else if (!networkUp()) {
             swipeRefreshLayout.setRefreshing(false);
             Toast.makeText(this, R.string.toast_no_connectivity, Toast.LENGTH_LONG).show();
@@ -107,8 +118,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
+            fabButton.setEnabled(false);
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_grey)));
         } else {
             error.setVisibility(View.GONE);
+            fabButton.setEnabled(true);
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
         }
     }
 
@@ -146,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (data.getCount() != 0) {
             error.setVisibility(View.GONE);
         }
+
         adapter.setCursor(data);
     }
 
