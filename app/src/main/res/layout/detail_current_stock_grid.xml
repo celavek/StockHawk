@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Detail Layout for Grid -->
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:columnCount="2">
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/detail_view_padding"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1" />
+
+    <TextView
+        android:id="@+id/detail_stock_textview"
+        android:layout_marginBottom="@dimen/detail_view_padding"
+        android:layout_marginTop="@dimen/detail_view_padding"
+        android:fontFamily="sans-serif"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/secondary_text"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1"
+        app:layout_gravity="fill_horizontal"
+        tools:text="Today, April 03" />
+
+    <TextView
+        android:id="@+id/detail_price_title_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/primary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        android:text="@string/price"
+        app:layout_columnWeight="1"
+        app:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/detail_price_value_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/secondary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        app:layout_columnWeight="1"
+        app:layout_gravity="center_horizontal"
+        tools:text="35.5"
+        />
+
+    <TextView
+        android:id="@+id/detail_market_title_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/primary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        android:text="@string/market_cap"
+        app:layout_columnWeight="1"
+        app:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/detail_market_value_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/secondary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        app:layout_columnWeight="1"
+        app:layout_gravity="center_horizontal"
+        tools:text="265 mil"
+        />
+
+    <TextView
+        android:id="@+id/detail_shares_float_title_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/primary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        android:text="@string/shares_floating"
+        app:layout_columnWeight="1"
+        app:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/detail_shares_float_value_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/secondary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        app:layout_columnWeight="1"
+        app:layout_gravity="center_horizontal"
+        tools:text="34 mil"
+        />
+    <TextView
+        android:id="@+id/detail_shares_out_title_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/primary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        android:text="@string/shares_outstanding"
+        app:layout_columnWeight="1"
+        app:layout_gravity="fill_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/detail_shares_out_value_tv"
+        android:layout_width="0dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_horizontal"
+        android:textColor="@color/secondary_text"
+        android:textAppearance="@style/StockSymbolTextStyle"
+        app:layout_columnWeight="1"
+        app:layout_gravity="center_horizontal"
+        tools:text="4 mil"
+        />
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/detail_view_padding"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1" />
+
+</android.support.v7.widget.GridLayout>

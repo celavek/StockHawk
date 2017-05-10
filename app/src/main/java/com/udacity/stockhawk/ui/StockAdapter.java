@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.data.StockDetail;
+import com.udacity.stockhawk.data.StockDetailBuilder;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -104,7 +106,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
 
     interface StockAdapterOnClickHandler {
-        void onClick(String symbol);
+        void onClick(StockDetail detail);
     }
 
     class StockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -129,7 +131,16 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int adapterPosition = getAdapterPosition();
             cursor.moveToPosition(adapterPosition);
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
-            clickHandler.onClick(cursor.getString(symbolColumn));
+            int priceColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE);
+            int absColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE);
+            int capColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_MARKET_CAP);
+            int floatColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_FLOAT);
+            int outColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OUTSTANDING);
+            int ownedColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OWNED);
+
+            StockDetailBuilder builder = new StockDetailBuilder();
+            clickHandler.onClick(builder.name(cursor.getString(symbolColumn))
+                                        .build());
         }
     }
 }

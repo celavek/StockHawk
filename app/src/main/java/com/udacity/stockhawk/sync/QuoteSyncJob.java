@@ -16,6 +16,7 @@ import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.stock.StockQuote;
+import yahoofinance.quotes.stock.StockStats;
 
 public final class QuoteSyncJob {
 
@@ -83,6 +85,19 @@ public final class QuoteSyncJob {
                     float change = quote.getChange().floatValue();
                     float percentChange = quote.getChangeInPercent().floatValue();
 
+                    double marketCap = 0;
+                    float sharesFloat = 0.f;
+                    float sharesOutstanding = 0.f;
+                    float sharesOwned = 0.f;
+
+                    StockStats stats = stock.getStats();
+                    if (stats != null) {
+                        marketCap = stats.getMarketCap().divide(BigDecimal.valueOf(1000000.0)).doubleValue();
+                        sharesFloat = stats.getSharesFloat() / 1000000.f;
+                        sharesOutstanding = stats.getSharesOutstanding() / 1000000.f;
+                        //sharesOwned = stats.getSharesOwned() / 1000000.f;
+                    }
+
                     // WARNING! Don't request historical data for a stock that doesn't exist!
                     // The request will hang forever X_x
                     List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
@@ -101,9 +116,14 @@ public final class QuoteSyncJob {
                     quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
                     quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                     quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
+                    quoteCV.put(Contract.Quote.COLUMN_MARKET_CAP, marketCap);
+                    quoteCV.put(Contract.Quote.COLUMN_SHARES_FLOAT, sharesFloat);
+                    quoteCV.put(Contract.Quote.COLUMN_SHARES_OUTSTANDING, sharesOutstanding);
+                    quoteCV.put(Contract.Quote.COLUMN_SHARES_OWNED, sharesOwned);
 
 
                     quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
+                    Timber.d(String.format("History: %s", historyBuilder.toString()));
 
                     quoteCVs.add(quoteCV);
                 }
@@ -112,12 +132,10 @@ public final class QuoteSyncJob {
                     invalidDetected = true;
                     Timber.e("Error fetching some stock quotes - invalid stock symbol.");
                 }
-
             }
 
             context.getContentResolver()
-                    .bulkInsert(
-                            Contract.Quote.URI,
+                    .bulkInsert(Contract.Quote.URI,
                             quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
 
             Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
@@ -180,8 +198,6 @@ public final class QuoteSyncJob {
             JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
             scheduler.schedule(builder.build());
-
-
         }
     }
 

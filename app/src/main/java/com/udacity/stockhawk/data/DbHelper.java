@@ -10,8 +10,8 @@ import com.udacity.stockhawk.data.Contract.Quote;
 class DbHelper extends SQLiteOpenHelper {
 
 
-    private static final String NAME = "StockHawk.db";
-    private static final int VERSION = 1;
+    private static final String NAME = "Stawk.db";
+    private static final int VERSION = 2;
 
 
     DbHelper(Context context) {
@@ -26,6 +26,10 @@ class DbHelper extends SQLiteOpenHelper {
                 + Quote.COLUMN_PRICE + " REAL NOT NULL, "
                 + Quote.COLUMN_ABSOLUTE_CHANGE + " REAL NOT NULL, "
                 + Quote.COLUMN_PERCENTAGE_CHANGE + " REAL NOT NULL, "
+                + Quote.COLUMN_MARKET_CAP + " REAL NOT NULL, "
+                + Quote.COLUMN_SHARES_FLOAT + " REAL NOT NULL, "
+                + Quote.COLUMN_SHARES_OUTSTANDING + " REAL NOT NULL, "
+                + Quote.COLUMN_SHARES_OWNED + " REAL NOT NULL, "
                 + Quote.COLUMN_HISTORY + " TEXT NOT NULL, "
                 + "UNIQUE (" + Quote.COLUMN_SYMBOL + ") ON CONFLICT REPLACE);";
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name">Stawk</string>
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
 
@@ -37,5 +37,10 @@
     <string name="add_a_new_stock_button_descr">Button to add a new stock symbol.</string>
     <string name="stock_symbol_to_add_descr">Edit text field to write down stock symbol to add(e.g GOOGL).</string>
     <string name="symbol_clicked_debug_message">Symbol clicked: %s</string>
+    <string name="shares_outstanding">Shares Outstanding</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="price">Price</string>
+    <string name="shares_floating">Shares Floating</string>
+    <string name="application_logo_image">Application logo image</string>
 
 </resources>
