@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             swipeRefreshLayout.setRefreshing(false);
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
-            fabButton.setEnabled(false);
-            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_grey)));
+            fabButton.setEnabled(true);
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
         } else {
             error.setVisibility(View.GONE);
             fabButton.setEnabled(true);
@@ -160,6 +160,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (data.getCount() != 0) {
             error.setVisibility(View.GONE);
+            fabButton.setEnabled(true);
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
         }
 
         adapter.setCursor(data);
