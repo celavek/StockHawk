@@ -137,10 +137,18 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int floatColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_FLOAT);
             int outColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OUTSTANDING);
             int ownedColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OWNED);
+            int historyColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_HISTORY);
 
             StockDetailBuilder builder = new StockDetailBuilder();
             clickHandler.onClick(builder.name(cursor.getString(symbolColumn))
-                                        .build());
+                    .price(cursor.getFloat(priceColumn))
+                    .absoluteChange(cursor.getFloat(absColumn))
+                    .marketCap(cursor.getFloat(capColumn))
+                    .sharesFloat(cursor.getFloat(floatColumn))
+                    .sharesOutstanding(cursor.getFloat(outColumn))
+                    .sharesOwned(cursor.getFloat(ownedColumn))
+                    .history(cursor.getString(historyColumn))
+                    .build());
         }
     }
 }

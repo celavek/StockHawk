@@ -61,6 +61,14 @@ public class StockDetail implements Parcelable {
         this.sharesOwned = sharesOwned;
     }
 
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
     private String name;
 
     private float price;
@@ -74,6 +82,8 @@ public class StockDetail implements Parcelable {
     private float sharesOutstanding;
 
     private float sharesOwned;
+
+    private String history;
 
 
     @Override
@@ -91,6 +101,7 @@ public class StockDetail implements Parcelable {
         this.sharesFloat = in.readFloat();
         this.sharesOutstanding = in.readFloat();
         this.sharesOwned = in.readFloat();
+        this.history = in.readString();
     }
 
     @Override
@@ -101,6 +112,7 @@ public class StockDetail implements Parcelable {
         dest.writeFloat(this.sharesFloat);
         dest.writeFloat(this.sharesOutstanding);
         dest.writeFloat(this.sharesOwned);
+        dest.writeString(this.history);
     }
 
     /**

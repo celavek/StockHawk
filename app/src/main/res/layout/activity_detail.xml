@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Master layout. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.udacity.stockhawk.ui.DetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_detail"
@@ -15,5 +16,17 @@
     <include layout="@layout/detail_current_stock_grid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"/>
+        android:layout_weight="3"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_item_padding_vertical_min"
+        android:layout_weight="0.10"
+        />
+
+    <include layout="@layout/detail_current_stock_chart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.9"/>
 </LinearLayout>

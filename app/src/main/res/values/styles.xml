@@ -33,4 +33,9 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="StockDetailsTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:color">@color/primary_text</item>
+    </style>
 </resources>

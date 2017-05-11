@@ -48,6 +48,11 @@ public class StockDetailBuilder {
         return this;
     }
 
+    public StockDetailBuilder history (String history) {
+        stockDetail.setHistory(history);
+        return this;
+    }
+
     public StockDetail build () {
         return stockDetail;
     }

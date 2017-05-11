@@ -53,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
      *
      * @return The Intent to use to start our share.
      */
-    private Intent createShareMovieIntent() {
+    private Intent createShareStockIntent() {
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setText(mMovieSynopsis + STOCK_SHARE_HASHTAG)
