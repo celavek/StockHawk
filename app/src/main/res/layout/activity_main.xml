@@ -10,17 +10,38 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/listPreferredItemHeight"
-            android:layout_gravity="start"
-            android:src="@drawable/ic_logo"
-            android:scaleType="center"
-            android:background="@color/primary"
-            android:contentDescription="@string/application_logo_image" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/listPreferredItemHeight"
+                android:layout_gravity="start"
+                android:background="@color/primary"
+                android:contentDescription="@string/application_logo_image"
+                android:scaleType="center"
+                android:src="@drawable/ic_logo"/>
+
+            <TextView
+                android:id="@+id/tv_title_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/app_name"
+                android:textAppearance="@android:style/TextAppearance.Material.Title"
+                android:textColor="@color/primary_text"
+                android:textSize="30sp"
+                tools:text="@string/app_name"/>
+        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.CoordinatorLayout

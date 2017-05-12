@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
             fabButton.setEnabled(true);
-            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
         } else {
             error.setVisibility(View.GONE);
             fabButton.setEnabled(true);
-            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
         }
     }
 
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (data.getCount() != 0) {
             error.setVisibility(View.GONE);
             fabButton.setEnabled(true);
-            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.material_blue_500)));
+            fabButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.accent)));
         }
 
         adapter.setCursor(data);
