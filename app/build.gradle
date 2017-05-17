@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.noveogroup.android.check'
 
+//return an API key from a properties file.
+def getApiKey (String property, String filePath){
+    Properties properties = new Properties()
+    properties.load(new FileInputStream(filePath))
+
+    return "\"" + properties.getProperty(property) +"\""
+}
+
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -17,6 +25,10 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        buildConfigField "String", "USERNAME_API_KEY", getApiKey("api_key_username",
+                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+        buildConfigField "String", "PASSWD_API_KEY", getApiKey("api_key_password",
+                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
     }
 
     buildTypes {
@@ -32,6 +44,13 @@ android {
             proguardFile "proguard-support-v7-appcompat.pro"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildTypes.each {
+        it.buildConfigField "String", "USERNAME_API_KEY", getApiKey("api_key_username",
+                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+        it.buildConfigField "String", "PASSWD_API_KEY", getApiKey("api_key_password",
+                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
     }
 
     //noinspection GroovyMissingReturnStatement
@@ -58,6 +77,8 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.guava:guava:20.0'
     compile 'com.yahoofinance-api:YahooFinanceAPI:3.6.1'
     compile 'com.jakewharton.timber:timber:4.4.0'
