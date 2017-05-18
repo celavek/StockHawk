@@ -31,15 +31,13 @@ public final class NetworkUtils {
 
     public static final String POINT_DATA_TYPE = "data_point";
 
-    public static final String TICKER = "ticker=";
+    public static final String COMPANIES = "companies";
 
-    public static final String ITEM = "item=";
+    public static final String TICKER = "ticker";
 
-    public static final String UPCOMING_ENDPOINT = "movie/upcoming";
+    public static final String ID = "identifier";
 
-    private static final String KEY_PARAM = "api_key";
-
-    private static final String LANGUAGE_PARAM = "language";
+    public static final String ITEM = "item";
 
     private static final String PAGE_PARAM = "page";
 
@@ -53,8 +51,6 @@ public final class NetworkUtils {
     public static URL buildRequestUrl (String queryEndpoint, int pageToLoad) {
         Uri builtUri = Uri.parse(INTRINIO_BASEPATH).buildUpon()
                 .appendEncodedPath(queryEndpoint)
-
-                .appendQueryParameter(LANGUAGE_PARAM, "en-US")
                 .appendQueryParameter(PAGE_PARAM, String.valueOf(pageToLoad))
                 .build();
 
@@ -106,7 +102,6 @@ public final class NetworkUtils {
         String trailerPath = "movie/" + movieId + "/videos";//String.format(TRAILER_ENDPOINT, movieId);
         Uri builtUri = Uri.parse(INTRINIO_BASEPATH).buildUpon()
                 .appendEncodedPath(trailerPath)
-                .appendQueryParameter(LANGUAGE_PARAM, "en-US")
                 .build();
 
         URL url = null;
@@ -132,7 +127,6 @@ public final class NetworkUtils {
         String trailerPath = "movie/" + movieId + "/reviews";//String.format(TRAILER_ENDPOINT, movieId);
         Uri builtUri = Uri.parse(INTRINIO_BASEPATH).buildUpon()
                 .appendEncodedPath(trailerPath)
-                .appendQueryParameter(LANGUAGE_PARAM, "en-US")
                 .appendQueryParameter(PAGE_PARAM, String.valueOf(1))
                 .build();
 

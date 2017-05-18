@@ -117,9 +117,7 @@ public final class QuoteSyncJob {
                     quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                     quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
                     quoteCV.put(Contract.Quote.COLUMN_MARKET_CAP, marketCap);
-                    quoteCV.put(Contract.Quote.COLUMN_SHARES_FLOAT, sharesFloat);
                     quoteCV.put(Contract.Quote.COLUMN_SHARES_OUTSTANDING, sharesOutstanding);
-                    quoteCV.put(Contract.Quote.COLUMN_SHARES_OWNED, sharesOwned);
 
 
                     quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
