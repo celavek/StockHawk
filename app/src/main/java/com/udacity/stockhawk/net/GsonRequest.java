@@ -2,7 +2,7 @@
  * Adapted from the Volley documentation at
  * https://developer.android.com/training/volley/request-custom.html
  */
-package com.udacity.stockhawk.utils;
+package com.udacity.stockhawk.net;
 
 import android.util.Base64;
 

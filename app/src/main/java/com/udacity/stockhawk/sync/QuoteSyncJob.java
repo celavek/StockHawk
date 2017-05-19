@@ -12,11 +12,16 @@ import android.util.Pair;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.StockHawkApp;
+import com.udacity.stockhawk.data.CompanyInfo;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.net.GsonRequest;
+import com.udacity.stockhawk.net.NetworkUtils;
+import com.udacity.stockhawk.net.VolleyController;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -41,6 +46,8 @@ public final class QuoteSyncJob {
     private static final int INITIAL_BACKOFF = 10000;
     private static final int PERIODIC_ID = 1;
     private static final int YEARS_OF_HISTORY = 2;
+
+    private final String TAG = QuoteSyncJob.class.getCanonicalName();
 
     private QuoteSyncJob() {
     }
@@ -67,18 +74,23 @@ public final class QuoteSyncJob {
                 return Pair.create(false, StockHawkApp.getContext().getResources().getString(R.string.error_no_stocks));
             }
 
-            Map<String, Stock> quotes = YahooFinance.get(stockArray);
             Iterator<String> iterator = stockCopy.iterator();
-
-            Timber.d(quotes.toString());
-
             ArrayList<ContentValues> quoteCVs = new ArrayList<>();
 
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
 
-                Stock stock = quotes.get(symbol);
-                if (stock.isValid()) {
+                // get company info
+                CompanyInfo companyInfo = new CompanyInfo();
+                URL requestUrl = NetworkUtils.buildCompanyInfoUrl(symbol, 0);
+                GsonRequest<CompanyInfo> gsonRequest = new GsonRequest<>(requestUrl.toString(), CompanyInfo.class,
+                        new QuoteResponseListener<CompanyInfo>(companyInfo),
+                        new QuoteErrorListener());
+
+                VolleyController.getInstance(StockHawkApp.getContext()).addToRequestQueue(gsonRequest);
+
+                boolean isValid = companyInfo == null ? false : true;
+                if (isValid) {
                     StockQuote quote = stock.getQuote();
 
                     float price = quote.getPrice().floatValue();

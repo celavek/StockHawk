@@ -2,7 +2,7 @@
  * Adapted from the Volley documentation at
  * https://developer.android.com/training/volley/requestqueue.html#singleton
  */
-package com.udacity.stockhawk.utils;
+package com.udacity.stockhawk.net;
 
 import android.content.Context;
 import android.graphics.Bitmap;
