@@ -26,9 +26,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
         buildConfigField "String", "USERNAME_API_KEY", getApiKey("api_key_username",
-                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+                "/home/mac/work/projects/api_keys/intrinio_api_key")
         buildConfigField "String", "PASSWD_API_KEY", getApiKey("api_key_password",
-                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+                "/home/mac/work/projects/api_keys/intrinio_api_key")
     }
 
     buildTypes {
@@ -48,9 +48,9 @@ android {
 
     buildTypes.each {
         it.buildConfigField "String", "USERNAME_API_KEY", getApiKey("api_key_username",
-                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+                "/home/mac/work/projects/api_keys/intrinio_api_key")
         it.buildConfigField "String", "PASSWD_API_KEY", getApiKey("api_key_password",
-                "/home/dev/source_repos/android_courses/api_keys/intrinio_api_key")
+                "/home/mac/work/projects/api_keys/intrinio_api_key")
     }
 
     //noinspection GroovyMissingReturnStatement

@@ -131,12 +131,13 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int adapterPosition = getAdapterPosition();
             cursor.moveToPosition(adapterPosition);
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
+            int nameColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_NAME);
+            int infoColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_INFO);
             int priceColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE);
             int absColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE);
+            int perColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_PERCENTAGE_CHANGE);
             int capColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_MARKET_CAP);
-            int floatColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_FLOAT);
             int outColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OUTSTANDING);
-            int ownedColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OWNED);
             int historyColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_HISTORY);
 
             StockDetailBuilder builder = new StockDetailBuilder();
@@ -144,9 +145,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
                     .price(cursor.getFloat(priceColumn))
                     .absoluteChange(cursor.getFloat(absColumn))
                     .marketCap(cursor.getFloat(capColumn))
-                    .sharesFloat(cursor.getFloat(floatColumn))
                     .sharesOutstanding(cursor.getFloat(outColumn))
-                    .sharesOwned(cursor.getFloat(ownedColumn))
                     .history(cursor.getString(historyColumn))
                     .build());
         }

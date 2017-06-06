@@ -27,6 +27,7 @@ public class QuoteErrorListener implements Response.ErrorListener {
 
         NetworkResponse response = error.networkResponse;
         if (response != null && response.data != null) {
+            Timber.e("Network request error %d", response.statusCode);
             switch (response.statusCode) {
                 case 401:
                     message = ctx.getString(R.string.intrinio_unauthorized_error);;
@@ -64,7 +65,7 @@ public class QuoteErrorListener implements Response.ErrorListener {
             message += ctx.getString(R.string.timeout_error);
         }
         message += String.valueOf(error);
-        Timber.d(TAG, message);
+        Timber.d(message);
 
         //showErrorMessage(message);
     }

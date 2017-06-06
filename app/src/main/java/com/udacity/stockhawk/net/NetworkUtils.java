@@ -61,6 +61,9 @@ public final class NetworkUtils {
         }
     }
 
+    public static final StockItemType[] ALL_STOCK_ITEMS = new StockItemType [] {StockItemType.CLOSE_PRICE,
+        StockItemType.MARKETCAP, StockItemType.ABSOLUTE_CHANGE,StockItemType.PERCENT_CHANGE, StockItemType.SHARES_BASIC_OUT};
+
     public interface APIContract {
         //The API KEY MUST NOT BE PUBLISHED. It is possible to generate a new one for free
         // from www.intrinio.com
@@ -70,7 +73,7 @@ public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String INTRINIO_BASEPATH = "https://www.api.intrinio.com";
+    private static final String INTRINIO_BASEPATH = "https://api.intrinio.com";
 
     private static final String DATA_POINT_PATH = "data_point";
 
@@ -163,7 +166,7 @@ public final class NetworkUtils {
      */
     public static URL buildAllDataPointUrl (String companySymbol, final StockItemType[] items) {
         final Uri builtUri = Uri.parse(INTRINIO_BASEPATH).buildUpon()
-                .appendPath(COMPANIES_PATH)
+                .appendPath(DATA_POINT_PATH)
                 .appendQueryParameter(ID_PARAM, companySymbol)
                 .appendQueryParameter(ITEM_PARAM, new Appender ()
                     {
