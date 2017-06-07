@@ -15,6 +15,10 @@ public class HistoricalData {
         private String date;
 
         private float value;
+
+        public String getDate () { return date; }
+
+        public float getValue () { return value; }
     }
 
     private List<HistoryPoint> data;
@@ -31,4 +35,14 @@ public class HistoricalData {
 
     @SerializedName("total_pages")
     private int totalPages;
+
+    //public HistoricalData () { data = new ArrayList<>(); }
+
+    public List<HistoryPoint> getHistory () { return data; }
+
+    public int size () { return data.size(); }
+
+    public String getId () { return identifier; }
+
+    public String getItem () { return item; }
 }

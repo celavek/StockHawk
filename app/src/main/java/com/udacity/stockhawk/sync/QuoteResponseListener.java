@@ -8,7 +8,7 @@ public class QuoteResponseListener<T> implements Response.Listener<T> {
 
     private static final String TAG = QuoteResponseListener.class.getCanonicalName();
 
-    private T result;
+    protected T result;
 
     public QuoteResponseListener (T result) { this.result = result; }
 
@@ -26,4 +26,6 @@ public class QuoteResponseListener<T> implements Response.Listener<T> {
             Timber.e("Response listener result is null %s.", TAG);
         }
     }
+
+    public boolean isValid () { return result != null; }
 }

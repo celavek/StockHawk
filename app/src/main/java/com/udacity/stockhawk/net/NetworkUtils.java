@@ -5,13 +5,11 @@
 package com.udacity.stockhawk.net;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.udacity.stockhawk.BuildConfig;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
 
 import timber.log.Timber;
 
@@ -97,6 +95,8 @@ public final class NetworkUtils {
 
     private static final String PAGE_PARAM = "page";
 
+    private static final String PAGE_SIZE_PARAM = "page_size";
+
     private static final String ITEM_CLOSE_PRICE = "close_price";
 
 
@@ -130,16 +130,16 @@ public final class NetworkUtils {
      * @param companySymbol company stock symbol
      * @return URL to use to query the stock data server.
      */
-    public static URL buildHistoryUrl (String companySymbol, Calendar from, Calendar to, Frequency frequency, int
-            pageToLoad) {
+    public static URL buildHistoryUrl (String companySymbol, String fromDate, String toDate, Frequency frequency, long pageSize) {
         Uri builtUri = Uri.parse(INTRINIO_BASEPATH).buildUpon()
                 .appendPath(HISTORICAL_PATH)
                 .appendQueryParameter(ID_PARAM, companySymbol)
                 .appendQueryParameter(ITEM_PARAM, ITEM_CLOSE_PRICE)
-                .appendQueryParameter(START_DATE_PARAM, from.toString())
-                .appendQueryParameter(STOP_DATE_PARAM, to.toString())
+                .appendQueryParameter(START_DATE_PARAM, fromDate)
+                .appendQueryParameter(STOP_DATE_PARAM, toDate)
                 .appendQueryParameter(FREQ_PARAM, frequency.getTag())
                 .appendQueryParameter(TYPE_PARAM, "FY")
+                .appendQueryParameter(PAGE_SIZE_PARAM, String.valueOf(pageSize))
                 .build();
 
         URL url = null;

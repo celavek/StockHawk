@@ -14,30 +14,22 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.StockHawkApp;
 import com.udacity.stockhawk.data.CompanyInfo;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.HistoricalData;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.data.StockDataPointContainer;
 import com.udacity.stockhawk.net.GsonRequest;
 import com.udacity.stockhawk.net.NetworkUtils;
 import com.udacity.stockhawk.net.VolleyController;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import timber.log.Timber;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes.Interval;
-import yahoofinance.quotes.stock.StockQuote;
-import yahoofinance.quotes.stock.StockStats;
 
 public final class QuoteSyncJob {
 
@@ -46,7 +38,7 @@ public final class QuoteSyncJob {
     private static final int PERIOD = 300000;
     private static final int INITIAL_BACKOFF = 10000;
     private static final int PERIODIC_ID = 1;
-    private static final int YEARS_OF_HISTORY = 2;
+    private static final int YEARS_OF_HISTORY = 1;
 
     private final String TAG = QuoteSyncJob.class.getCanonicalName();
 
@@ -56,11 +48,6 @@ public final class QuoteSyncJob {
     static Pair<Boolean, String> getQuotes(Context context) {
 
         Timber.d("Running sync job");
-
-        Calendar from = Calendar.getInstance();
-        Calendar to = Calendar.getInstance();
-        from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
-
         boolean invalidDetected = false;
 
         Set<String> stockPref = PrefUtils.getStocks(context);
@@ -77,6 +64,10 @@ public final class QuoteSyncJob {
         Iterator<String> iterator = stockCopy.iterator();
         ArrayList<ContentValues> quoteCVs = new ArrayList<>();
 
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+        from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
+
         while (iterator.hasNext()) {
             String symbol = iterator.next();
             Timber.d("Fetching company info for stock symbol %s", symbol);
@@ -85,7 +76,7 @@ public final class QuoteSyncJob {
             CompanyInfo companyInfo = new CompanyInfo();
             URL requestUrl = NetworkUtils.buildCompanyInfoUrl(symbol, 0);
             GsonRequest<CompanyInfo> companyRequest = new GsonRequest<>(requestUrl.toString(), CompanyInfo.class,
-                    new QuoteResponseListener<CompanyInfo>(companyInfo) ,
+                    new CompanyInfoResponseListener(companyInfo) ,
                     new QuoteErrorListener());
 
             VolleyController.getInstance(StockHawkApp.getContext()).addToRequestQueue(companyRequest);
@@ -97,10 +88,25 @@ public final class QuoteSyncJob {
                 StockDataPointContainer stockDataContainer = new StockDataPointContainer();
                 requestUrl = NetworkUtils.buildAllDataPointUrl(symbol, NetworkUtils.ALL_STOCK_ITEMS);
                 GsonRequest<StockDataPointContainer> stockRequest = new GsonRequest<>(requestUrl.toString(), StockDataPointContainer.class,
-                        new QuoteResponseListener<StockDataPointContainer>(stockDataContainer),
+                        new DataPointResponseListener(stockDataContainer),
                         new QuoteErrorListener());
 
                 VolleyController.getInstance(StockHawkApp.getContext()).addToRequestQueue(stockRequest);
+
+                Timber.d("Fetching historical data for stock symbol %s", symbol);
+                Timber.d("Time interval is %s - %s ", from.toString(), to.toString());
+                // get company stock historical data
+                HistoricalData stockHistory = new HistoricalData();
+                long diff = to.getTimeInMillis() - from.getTimeInMillis();
+                long aproxDays = diff / (1000 * 24 * 60 * 60) + 10;
+                SimpleDateFormat apiFormat = new SimpleDateFormat("YYYY-MM-DD");
+                requestUrl = NetworkUtils.buildHistoryUrl(symbol, apiFormat.format(from.getTime()),
+                        apiFormat.format(to.getTime()), NetworkUtils.Frequency.DAILY, aproxDays);
+                GsonRequest<HistoricalData> historyRequest = new GsonRequest<>(requestUrl.toString(), HistoricalData.class,
+                        new HistoryResponseListener(stockHistory),
+                        new QuoteErrorListener());
+
+                VolleyController.getInstance(StockHawkApp.getContext()).addToRequestQueue(historyRequest);
 
                 //@TODO to be continued ...
 
