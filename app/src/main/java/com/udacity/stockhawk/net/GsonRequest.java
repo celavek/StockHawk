@@ -2,7 +2,7 @@
  * Adapted from the Volley documentation at
  * https://developer.android.com/training/volley/request-custom.html
  */
-package com.udacity.stockhawk.utils;
+package com.udacity.stockhawk.net;
 
 import android.util.Base64;
 
@@ -53,12 +53,9 @@ public class GsonRequest<T> extends Request<T> {
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (headers == null) {
             headers = new HashMap<String, String>();
-            headers.put(
-                    "Authorization",
-                    String.format("Basic %s", Base64.encodeToString(
-                            String.format("%s:%s", NetworkUtils.APIContract.USERNAME_API_KEY, NetworkUtils
-                                    .APIContract.PASSWD_API_KEY).getBytes(),
-                            Base64.DEFAULT)));
+            String creds = String.format("%s:%s", NetworkUtils.APIContract.USERNAME_API_KEY,NetworkUtils.APIContract.PASSWD_API_KEY);
+            String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
+            headers.put("Authorization", auth);
         }
 
         return headers;
