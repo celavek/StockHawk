@@ -5,13 +5,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 
-public class StockProvider extends ContentProvider {
+public class StockContentProvider extends ContentProvider {
 
     private static final int QUOTE = 100;
     private static final int QUOTE_FOR_SYMBOL = 101;
@@ -85,17 +87,18 @@ public class StockProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) throws UnsupportedOperationException, SQLiteConstraintException {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri returnUri;
 
         switch (uriMatcher.match(uri)) {
             case QUOTE:
-                db.insert(
+                /*db.insert(
                         Contract.Quote.TABLE_NAME,
                         null,
                         values
-                );
+                );*/
+                insertOrUpdateByColumn(db, uri, values, Contract.Quote.COLUMN_SYMBOL);
                 returnUri = Contract.Quote.URI;
                 break;
             default:
@@ -108,6 +111,25 @@ public class StockProvider extends ContentProvider {
         }
 
         return returnUri;
+    }
+
+    /**
+     * If a column with a specific name does not exist then insert a new row with
+     * the specified values. Otherwise do an update on the existing row.
+     *
+     * @param uri       database uri
+     * @param values    content values, that is thw column values for the specific row
+     * @param column    name of column to check for existence
+     */
+    private void insertOrUpdateByColumn (SQLiteDatabase db, @NonNull Uri uri, ContentValues values, String column) throws SQLiteConstraintException {
+        try
+        {
+            db.insertOrThrow(Contract.Quote.TABLE_NAME, null, values);
+        } catch (SQLiteConstraintException sce) {
+            int nRows = update(uri, values, column + "=?", new String[]{values.getAsString(column)});
+
+            if (nRows == 0) throw sce;
+        }
     }
 
     @Override
@@ -152,7 +174,32 @@ public class StockProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int count = 0;
+
+        switch (uriMatcher.match(uri)) {
+            case QUOTE:
+                count = db.update(Contract.Quote.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case QUOTE_FOR_SYMBOL:
+                String symbol = Contract.Quote.getStockFromUri(uri);
+                count = db.update(
+                        Contract.Quote.TABLE_NAME, values,
+                        '"' + symbol + '"' + " =" + Contract.Quote.COLUMN_SYMBOL +
+                                (!TextUtils.isEmpty(selection) ? "AND (" + selection + ")" : ""),
+                        selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown URI:" + uri);
+        }
+
+        Context context = getContext();
+        if (context != null){
+            context.getContentResolver().notifyChange(uri, null);
+        }
+
+        return count;
     }
 
     @Override

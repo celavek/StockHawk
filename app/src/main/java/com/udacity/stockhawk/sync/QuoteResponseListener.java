@@ -8,6 +8,8 @@ public class QuoteResponseListener<T> implements Response.Listener<T> {
 
     private static final String TAG = QuoteResponseListener.class.getCanonicalName();
 
+    protected static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
+
     protected T result;
 
     public QuoteResponseListener (T result) { this.result = result; }

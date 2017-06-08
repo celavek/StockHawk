@@ -13,7 +13,6 @@ import android.util.Pair;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.StockHawkApp;
 import com.udacity.stockhawk.data.CompanyInfo;
-import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.HistoricalData;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.data.StockDataPointContainer;
@@ -34,7 +33,6 @@ import timber.log.Timber;
 public final class QuoteSyncJob {
 
     private static final int ONE_OFF_ID = 2;
-    private static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
     private static final int PERIOD = 300000;
     private static final int INITIAL_BACKOFF = 10000;
     private static final int PERIODIC_ID = 1;
@@ -45,7 +43,7 @@ public final class QuoteSyncJob {
     private QuoteSyncJob() {
     }
 
-    static Pair<Boolean, String> getQuotes(Context context) {
+    static Pair<Boolean, String> getQuotes (Context context) {
 
         Timber.d("Running sync job");
         boolean invalidDetected = false;
@@ -163,19 +161,20 @@ public final class QuoteSyncJob {
             }
         }
 
-        context.getContentResolver()
-                .bulkInsert(Contract.Quote.URI,
-                        quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
-
-        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-        context.sendBroadcast(dataUpdatedIntent);
-
         if (invalidDetected) {
             return Pair.create(true,
                     StockHawkApp.getContext().getResources().getString(R.string.error_invalid_stock));
         } else {
             return Pair.create(false, "");
         }
+
+        /*context.getContentResolver()
+                .bulkInsert(Contract.Quote.URI,
+                        quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
+
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+        context.sendBroadcast(dataUpdatedIntent);*/
+
     }
 
     private static void schedulePeriodic(Context context) {
@@ -196,14 +195,14 @@ public final class QuoteSyncJob {
     }
 
 
-    public static synchronized void initialize(final Context context) {
+    public static synchronized void initialize (final Context context) {
 
         schedulePeriodic(context);
         syncImmediately(context);
 
     }
 
-    public static synchronized void syncImmediately(Context context) {
+    public static synchronized void syncImmediately (Context context) {
 
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

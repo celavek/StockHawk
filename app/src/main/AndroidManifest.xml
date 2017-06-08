@@ -34,7 +34,7 @@
             android:exported="false" />
 
         <provider
-            android:name=".data.StockProvider"
+            android:name=".data.StockContentProvider"
             android:authorities="com.udacity.stockhawk"
             android:exported="false" />
 

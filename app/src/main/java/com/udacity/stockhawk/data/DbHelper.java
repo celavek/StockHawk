@@ -8,8 +8,7 @@ import com.udacity.stockhawk.data.Contract.Quote;
 
 
 class DbHelper extends SQLiteOpenHelper {
-
-
+    
     private static final String NAME = "Stawk.db";
     private static final int VERSION = 2;
 
@@ -17,6 +16,7 @@ class DbHelper extends SQLiteOpenHelper {
     DbHelper(Context context) {
         super(context, NAME, null, VERSION);
     }
+
     public static final String COLUMN_SYMBOL = "symbol";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_INFO = "info";
@@ -39,7 +39,7 @@ class DbHelper extends SQLiteOpenHelper {
                 + Quote.COLUMN_MARKET_CAP + " REAL NOT NULL, "
                 + Quote.COLUMN_SHARES_OUTSTANDING + " REAL NOT NULL, "
                 + Quote.COLUMN_HISTORY + " TEXT NOT NULL, "
-                + "UNIQUE (" + Quote.COLUMN_SYMBOL + ") ON CONFLICT REPLACE);";
+                + "UNIQUE (" + Quote.COLUMN_SYMBOL + ")";
 
         db.execSQL(builder);
     }
