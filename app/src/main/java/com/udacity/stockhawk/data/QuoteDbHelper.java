@@ -7,27 +7,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.udacity.stockhawk.data.Contract.Quote;
 
 
-class DbHelper extends SQLiteOpenHelper {
-    
-    private static final String NAME = "Stawk.db";
-    private static final int VERSION = 2;
+class QuoteDbHelper extends SQLiteOpenHelper {
 
+    private static final String DATABASE_NAME = "stawk.db";
 
-    DbHelper(Context context) {
-        super(context, NAME, null, VERSION);
+    // ! during development this is more practical as it will keep the
+    // database in memory allowing for proper testing
+    private static final String IN_MEMORY_DATABASE = null;
+
+    private static final int VERSION = 1;
+
+    QuoteDbHelper (Context context) {
+        super(context, /*DATABASE_NAME*/IN_MEMORY_DATABASE, null, VERSION);
     }
 
-    public static final String COLUMN_SYMBOL = "symbol";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_INFO = "info";
-    public static final String COLUMN_PRICE = "price";
-    public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";
-    public static final String COLUMN_PERCENTAGE_CHANGE = "percentage_change";
-    public static final String COLUMN_MARKET_CAP = "market_cap";
-    public static final String COLUMN_SHARES_OUTSTANDING = "shares_outstanding";
-    public static final String COLUMN_HISTORY = "history";
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate (SQLiteDatabase db) {
         String builder = "CREATE TABLE " + Quote.TABLE_NAME + " ("
                 + Quote._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Quote.COLUMN_SYMBOL + " TEXT NOT NULL, "
@@ -45,7 +40,7 @@ class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL(" DROP TABLE IF EXISTS " + Quote.TABLE_NAME);
 

@@ -20,7 +20,7 @@ public class StockContentProvider extends ContentProvider {
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
-    private DbHelper dbHelper;
+    private QuoteDbHelper quoteDbHelper;
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -32,7 +32,7 @@ public class StockContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        dbHelper = new DbHelper(getContext());
+        quoteDbHelper = new QuoteDbHelper(getContext());
         return true;
     }
 
@@ -40,7 +40,7 @@ public class StockContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor returnCursor;
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = quoteDbHelper.getReadableDatabase();
 
         switch (uriMatcher.match(uri)) {
             case QUOTE:
@@ -88,7 +88,7 @@ public class StockContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) throws UnsupportedOperationException, SQLiteConstraintException {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = quoteDbHelper.getWritableDatabase();
         Uri returnUri;
 
         switch (uriMatcher.match(uri)) {
@@ -134,7 +134,7 @@ public class StockContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final SQLiteDatabase db = quoteDbHelper.getWritableDatabase();
         int rowsDeleted;
 
         if (null == selection) {
@@ -174,7 +174,7 @@ public class StockContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = quoteDbHelper.getWritableDatabase();
         int count = 0;
 
         switch (uriMatcher.match(uri)) {
@@ -205,7 +205,7 @@ public class StockContentProvider extends ContentProvider {
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
 
-        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final SQLiteDatabase db = quoteDbHelper.getWritableDatabase();
 
         switch (uriMatcher.match(uri)) {
             case QUOTE:
