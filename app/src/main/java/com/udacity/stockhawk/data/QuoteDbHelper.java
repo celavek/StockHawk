@@ -1,10 +1,13 @@
 package com.udacity.stockhawk.data;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.udacity.stockhawk.data.Contract.Quote;
+
+import timber.log.Timber;
 
 
 class QuoteDbHelper extends SQLiteOpenHelper {
@@ -26,17 +29,21 @@ class QuoteDbHelper extends SQLiteOpenHelper {
         String builder = "CREATE TABLE " + Quote.TABLE_NAME + " ("
                 + Quote._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + Quote.COLUMN_SYMBOL + " TEXT NOT NULL, "
-                + Quote.COLUMN_NAME + " TEXT NOT NULL, "
-                + Quote.COLUMN_INFO + " TEXT NOT NULL, "
-                + Quote.COLUMN_PRICE + " REAL NOT NULL, "
-                + Quote.COLUMN_ABSOLUTE_CHANGE + " REAL NOT NULL, "
-                + Quote.COLUMN_PERCENTAGE_CHANGE + " REAL NOT NULL, "
-                + Quote.COLUMN_MARKET_CAP + " REAL NOT NULL, "
-                + Quote.COLUMN_SHARES_OUTSTANDING + " REAL NOT NULL, "
-                + Quote.COLUMN_HISTORY + " TEXT NOT NULL, "
-                + "UNIQUE (" + Quote.COLUMN_SYMBOL + ")";
+                + Quote.COLUMN_NAME + " TEXT, "
+                + Quote.COLUMN_INFO + " TEXT, "
+                + Quote.COLUMN_PRICE + " REAL, "
+                + Quote.COLUMN_ABSOLUTE_CHANGE + " REAL, "
+                + Quote.COLUMN_PERCENTAGE_CHANGE + " REAL, "
+                + Quote.COLUMN_MARKETCAP + " REAL, "
+                + Quote.COLUMN_SHARES_OUTSTANDING + " REAL, "
+                + Quote.COLUMN_HISTORY + " TEXT, "
+                + "UNIQUE (" + Quote.COLUMN_SYMBOL + "))" ;
 
-        db.execSQL(builder);
+        try {
+            db.execSQL(builder);
+        } catch (SQLException sqe) {
+            Timber.e("Failed to create database. Something went wrong - %s", sqe.getLocalizedMessage());
+        }
     }
 
     @Override

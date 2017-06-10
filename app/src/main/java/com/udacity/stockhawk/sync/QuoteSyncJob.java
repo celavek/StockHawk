@@ -13,7 +13,7 @@ import android.util.Pair;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.StockHawkApp;
 import com.udacity.stockhawk.data.CompanyInfo;
-import com.udacity.stockhawk.data.HistoricalData;
+import com.udacity.stockhawk.data.HistoricalStockData;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.data.StockDataPointContainer;
 import com.udacity.stockhawk.net.GsonRequest;
@@ -94,13 +94,13 @@ public final class QuoteSyncJob {
                 Timber.d("Fetching historical data for stock symbol %s", symbol);
                 Timber.d("Time interval is %s - %s ", from.toString(), to.toString());
                 // get company stock historical data
-                HistoricalData stockHistory = new HistoricalData();
+                HistoricalStockData stockHistory = new HistoricalStockData();
                 long diff = to.getTimeInMillis() - from.getTimeInMillis();
                 long aproxDays = diff / (1000 * 24 * 60 * 60) + 10;
                 SimpleDateFormat apiFormat = new SimpleDateFormat("YYYY-MM-DD");
                 requestUrl = NetworkUtils.buildHistoryUrl(symbol, apiFormat.format(from.getTime()),
                         apiFormat.format(to.getTime()), NetworkUtils.Frequency.DAILY, aproxDays);
-                GsonRequest<HistoricalData> historyRequest = new GsonRequest<>(requestUrl.toString(), HistoricalData.class,
+                GsonRequest<HistoricalStockData> historyRequest = new GsonRequest<>(requestUrl.toString(), HistoricalStockData.class,
                         new HistoryResponseListener(stockHistory),
                         new QuoteErrorListener());
 
@@ -145,7 +145,7 @@ public final class QuoteSyncJob {
                 quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
                 quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                 quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
-                quoteCV.put(Contract.Quote.COLUMN_MARKET_CAP, marketCap);
+                quoteCV.put(Contract.Quote.COLUMN_MARKETCAP, marketCap);
                 quoteCV.put(Contract.Quote.COLUMN_SHARES_OUTSTANDING, sharesOutstanding);
 
 

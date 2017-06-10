@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import timber.log.Timber;
+
 
 public class StockContentProvider extends ContentProvider {
 
@@ -89,7 +91,7 @@ public class StockContentProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) throws UnsupportedOperationException, SQLiteConstraintException {
         SQLiteDatabase db = quoteDbHelper.getWritableDatabase();
-        Uri returnUri;
+        Uri returnUri = null;
 
         switch (uriMatcher.match(uri)) {
             case QUOTE:
@@ -98,8 +100,12 @@ public class StockContentProvider extends ContentProvider {
                         null,
                         values
                 );*/
-                insertOrUpdateByColumn(db, uri, values, Contract.Quote.COLUMN_SYMBOL);
-                returnUri = Contract.Quote.URI;
+                try {
+                    insertOrUpdateByColumn(db, uri, values, Contract.Quote.COLUMN_SYMBOL);
+                    returnUri = Contract.Quote.URI;
+                } catch (SQLiteConstraintException sce) {
+                   Timber.e("Insertion failed %s", sce.getLocalizedMessage());
+                }
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown URI:" + uri);
@@ -128,7 +134,10 @@ public class StockContentProvider extends ContentProvider {
         } catch (SQLiteConstraintException sce) {
             int nRows = update(uri, values, column + "=?", new String[]{values.getAsString(column)});
 
-            if (nRows == 0) throw sce;
+            if (nRows == 0) {
+                Timber.e("Insert or update by column failed!");
+                throw sce;
+            }
         }
     }
 

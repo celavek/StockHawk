@@ -5,6 +5,10 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.google.common.collect.ImmutableList;
+import com.udacity.stockhawk.net.NetworkUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Contract {
 
@@ -26,9 +30,20 @@ public final class Contract {
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_ABSOLUTE_CHANGE = "absolute_change";
         public static final String COLUMN_PERCENTAGE_CHANGE = "percentage_change";
-        public static final String COLUMN_MARKET_CAP = "market_cap";
+        public static final String COLUMN_MARKETCAP = "market_cap";
         public static final String COLUMN_SHARES_OUTSTANDING = "shares_outstanding";
         public static final String COLUMN_HISTORY = "history";
+
+        public static final Map<String, String> quoteDataPoints;
+        static {
+            quoteDataPoints = new HashMap<String, String>();
+            quoteDataPoints.put(NetworkUtils.StockItemType.CLOSE_PRICE.getTag(), COLUMN_PRICE);
+            quoteDataPoints.put(NetworkUtils.StockItemType.MARKETCAP.getTag(), COLUMN_MARKETCAP);
+            quoteDataPoints.put(NetworkUtils.StockItemType.ABSOLUTE_CHANGE.getTag(), COLUMN_ABSOLUTE_CHANGE);
+            quoteDataPoints.put(NetworkUtils.StockItemType.PERCENTAGE_CHANGE.getTag(), COLUMN_PERCENTAGE_CHANGE);
+            quoteDataPoints.put(NetworkUtils.StockItemType.SHARES_BASIC_OUT.getTag(), COLUMN_SHARES_OUTSTANDING);
+        }
+
         public static final int POSITION_ID = 0;
         public static final int POSITION_SYMBOL = 1;
         public static final int POSITION_NAME = 2;
@@ -48,7 +63,7 @@ public final class Contract {
                 COLUMN_PRICE,
                 COLUMN_ABSOLUTE_CHANGE,
                 COLUMN_PERCENTAGE_CHANGE,
-                COLUMN_MARKET_CAP,
+                COLUMN_MARKETCAP,
                 COLUMN_SHARES_OUTSTANDING,
                 COLUMN_HISTORY
         );

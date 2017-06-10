@@ -8,7 +8,7 @@ import java.util.List;
  * Created by mac on 5/18/17.
  */
 
-public class HistoricalData {
+public class HistoricalStockData {
 
     public class HistoryPoint {
 
@@ -36,13 +36,13 @@ public class HistoricalData {
     @SerializedName("total_pages")
     private int totalPages;
 
-    //public HistoricalData () { data = new ArrayList<>(); }
+    //public HistoricalStockData () { data = new ArrayList<>(); }
 
     public List<HistoryPoint> getHistory () { return data; }
 
     public int size () { return data.size(); }
 
-    public String getId () { return identifier; }
+    public String getStockSymbol () { return identifier; }
 
-    public String getItem () { return item; }
+    public String getStockItem () { return item; }
 }

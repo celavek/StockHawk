@@ -41,6 +41,7 @@ public class CompanyInfoResponseListener extends QuoteResponseListener<CompanyIn
                     .append(companyInfo.getDescription()).append(",").append(companyInfo.getIndustry());
             ContentValues quoteCV = new ContentValues();
             quoteCV.put(Contract.Quote.COLUMN_SYMBOL, companyInfo.getSymbol());
+            quoteCV.put(Contract.Quote.COLUMN_NAME, companyInfo.getName());
             quoteCV.put(Contract.Quote.COLUMN_INFO, info.toString());
 
             Context context = StockHawkApp.getContext();

@@ -19,7 +19,7 @@ public class StockDataPoint {
         this.value = value;
     }
 
-    public String getIdentifier () { return identifier; }
+    public String getSymbol () { return identifier; }
 
     public String getItem () { return item; }
 

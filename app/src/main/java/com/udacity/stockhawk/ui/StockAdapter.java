@@ -136,7 +136,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int priceColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE);
             int absColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE);
             int perColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_PERCENTAGE_CHANGE);
-            int capColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_MARKET_CAP);
+            int capColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_MARKETCAP);
             int outColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SHARES_OUTSTANDING);
             int historyColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_HISTORY);
 

@@ -45,7 +45,7 @@ public final class NetworkUtils {
         CLOSE_PRICE("close_price"),
         MARKETCAP("marketcap"),
         ABSOLUTE_CHANGE("change"),
-        PERCENT_CHANGE("percent_change"),
+        PERCENTAGE_CHANGE("percent_change"),
         SHARES_BASIC_OUT("weightedavebasicsharesos");
 
         private final String tag;
@@ -60,7 +60,7 @@ public final class NetworkUtils {
     }
 
     public static final StockItemType[] ALL_STOCK_ITEMS = new StockItemType [] {StockItemType.CLOSE_PRICE,
-        StockItemType.MARKETCAP, StockItemType.ABSOLUTE_CHANGE,StockItemType.PERCENT_CHANGE, StockItemType.SHARES_BASIC_OUT};
+        StockItemType.MARKETCAP, StockItemType.ABSOLUTE_CHANGE,StockItemType.PERCENTAGE_CHANGE, StockItemType.SHARES_BASIC_OUT};
 
     public interface APIContract {
         //The API KEY MUST NOT BE PUBLISHED. It is possible to generate a new one for free
